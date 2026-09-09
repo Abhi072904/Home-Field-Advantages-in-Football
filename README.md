@@ -1,4 +1,4 @@
-# Capstone Project: Home Advantage in American Football
+# Home Advantage in American Football
 
 ## Parent Paper
 
