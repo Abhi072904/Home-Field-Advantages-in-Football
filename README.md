@@ -1,5 +1,3 @@
-# Home-Field-Advantages-in-Football
-
 # Capstone Project: Home Advantage in American Football
 
 ## Parent Paper
@@ -27,11 +25,56 @@ Combined, these three sources give the authors a uniform, ~20-year, multi-level 
 
 ## Project Goal
 
-*(Fill in: what you plan to reproduce, extend, or analyze from this paper for your capstone.)*
+This project investigates the specific factors that drive variation in home field advantage across NFL venues — such as crowd size, travel distance, altitude, weather, and surface type. We aim to develop a model that ranks NFL venues by the magnitude of home field advantage they confer, then validate this ranking against real-time results from the current ongoing NFL season to test whether our findings hold up out-of-sample.
 
 ## Repository Structure
 
-*(Fill in as you build it out, e.g. /code, /data, /docs)*
+```
+capstone-home-advantage-football/
+├── README.md
+├── requirements.txt / environment.yml    # Python/R dependencies
+│
+├── data/
+│   ├── raw/                              # Untouched pulls (nflfastR, weather, stadium metadata)
+│   ├── processed/                        # Cleaned, merged, model-ready datasets
+│   └── external/                         # Reference tables (stadium altitude, surface type, lat/long, etc.)
+│
+├── notebooks/                            # Exploratory analysis, scratch work, plots
+│   ├── 01_eda.ipynb
+│   └── 02_feature_exploration.ipynb
+│
+├── src/
+│   ├── data_ingestion/
+│   │   ├── fetch_nfl_data.py             # Pull play-by-play / game data (e.g. nflfastR)
+│   │   ├── fetch_weather_data.py         # Historical/current game-day weather
+│   │   └── fetch_stadium_metadata.py     # Altitude, surface, crowd capacity, travel distance
+│   │
+│   ├── features/
+│   │   └── build_features.py             # Engineer variables (travel dist., altitude, crowd size, etc.)
+│   │
+│   ├── models/
+│   │   ├── train_model.py                # Fit home-advantage model per venue
+│   │   └── rank_venues.py                # Produce venue ranking from model output
+│   │
+│   └── validation/
+│       └── validate_current_season.py    # Compare rankings vs. live 2026 season results
+│
+├── results/
+│   ├── figures/                          # Plots (posterior distributions, rankings, etc.)
+│   ├── tables/                           # Final ranked venue tables
+│   └── model_outputs/                    # Saved model objects / posterior samples
+│
+├── reports/
+│   └── capstone_report.pdf               # Written report drafts / final submission
+│
+└── tests/
+    └── test_features.py                  # Sanity checks on data pipeline
+```
+
+**Notes on structure:**
+- `data/raw` should never be edited directly — treat it as a locked snapshot of source pulls.
+- `src/validation/` is the key folder tying back to your project goal — it's where you'll compare model-predicted venue rankings against actual outcomes as the current season unfolds.
+- Keep large raw data files out of git (use a `.gitignore` for `data/raw/` and `data/processed/` if they get large) and instead document how to regenerate them via the ingestion scripts.
 
 ## Original Authors' Code
 
